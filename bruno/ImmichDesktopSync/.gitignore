@@ -1,0 +1,10 @@
+# Secrets — never commit filled-in env values
+.env*
+environments/*.secret.yml
+
+# Dependencies
+node_modules
+
+# OS files
+.DS_Store
+Thumbs.db

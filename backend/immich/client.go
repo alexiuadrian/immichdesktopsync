@@ -1,0 +1,62 @@
+package immich
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"strings"
+	"time"
+)
+
+type Client struct {
+	BaseURL     string
+	token       string
+	httpClient  *http.Client
+	thumbClient *http.Client
+}
+
+func NewClient(baseURL, token string) *Client {
+	return &Client{
+		BaseURL: strings.TrimRight(baseURL, "/"),
+		token:   token,
+		httpClient: &http.Client{
+			Timeout: 60 * time.Second,
+		},
+		thumbClient: &http.Client{
+			Timeout: 20 * time.Second,
+		},
+	}
+}
+
+func (c *Client) SetToken(token string) {
+	c.token = token
+}
+
+func (c *Client) do(method, path string, body io.Reader, contentType string) (*http.Response, error) {
+	return c.doWith(c.httpClient, method, path, body, contentType)
+}
+
+func (c *Client) doThumb(method, path string) (*http.Response, error) {
+	return c.doWith(c.thumbClient, method, path, nil, "")
+}
+
+func (c *Client) doWith(hc *http.Client, method, path string, body io.Reader, contentType string) (*http.Response, error) {
+	req, err := http.NewRequest(method, c.BaseURL+path, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Authorization", "Bearer "+c.token)
+	if contentType != "" {
+		req.Header.Set("Content-Type", contentType)
+	}
+	resp, err := hc.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode >= 400 {
+		b, _ := io.ReadAll(resp.Body)
+		resp.Body.Close()
+		return nil, fmt.Errorf("immich API error %d: %s", resp.StatusCode, string(b))
+	}
+	return resp, nil
+}

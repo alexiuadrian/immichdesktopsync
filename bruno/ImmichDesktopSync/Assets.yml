@@ -1,0 +1,24 @@
+info:
+  name: Search Assets
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: {{baseUrl}}/api/search/metadata
+  body:
+    type: json
+    data: |-
+      {
+        "size": 50,
+        "page": 1
+      }
+  auth:
+    type: bearer
+    token: {{token}}
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,25 @@
+info:
+  name: Check Assets (dedup)
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: {{baseUrl}}/api/assets/check
+  body:
+    type: json
+    data: |-
+      {
+        "assets": [
+          { "id": "filename-filesize" }
+        ]
+      }
+  auth:
+    type: bearer
+    token: {{token}}
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

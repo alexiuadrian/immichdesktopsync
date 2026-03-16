@@ -1,0 +1,29 @@
+# Build output
+build/bin/
+build/darwin/
+build/windows/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Go
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Config / user data
+~/.config/immich-desktop/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

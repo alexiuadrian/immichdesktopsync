@@ -1,0 +1,21 @@
+environment:
+  name: Local
+  variables:
+    - name: baseUrl
+      value: http://your-immich-server:2283
+      enabled: true
+    - name: email
+      value: ""
+      enabled: true
+    - name: password
+      value: ""
+      enabled: true
+    - name: token
+      value: ""
+      enabled: true
+    - name: assetId
+      value: ""
+      enabled: true
+    - name: albumId
+      value: ""
+      enabled: true

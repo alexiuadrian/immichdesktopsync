@@ -1,0 +1,17 @@
+info:
+  name: Get Thumbnail
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: {{baseUrl}}/api/assets/{{assetId}}/thumbnail?size=preview
+  auth:
+    type: bearer
+    token: {{token}}
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
