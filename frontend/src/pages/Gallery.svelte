@@ -9,12 +9,36 @@
   let pendingUploads = 0;
   let gridKey = 0;
 
+  interface ExifInfo {
+    fileSizeInByte?: number;
+    exifImageWidth?: number;
+    exifImageHeight?: number;
+    make?: string;
+    model?: string;
+    lensModel?: string;
+    fNumber?: number;
+    focalLength?: number;
+    iso?: number;
+    exposureTime?: string;
+    latitude?: number | null;
+    longitude?: number | null;
+    city?: string;
+    state?: string;
+    country?: string;
+    description?: string;
+  }
+
   interface Asset {
     id: string;
     type: string;
     originalPath: string;
+    originalFileName?: string;
     localDateTime?: string;
     fileCreatedAt?: string;
+    fileModifiedAt?: string;
+    duration?: string;
+    isFavorite?: boolean;
+    exifInfo?: ExifInfo;
   }
 
   interface Album {

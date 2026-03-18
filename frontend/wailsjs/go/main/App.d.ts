@@ -14,6 +14,8 @@ export function GetAlbumAssets(arg1:string):Promise<Array<models.Asset>>;
 
 export function GetAlbums():Promise<Array<models.Album>>;
 
+export function GetAssetInfo(arg1:string):Promise<models.Asset>;
+
 export function GetAssets():Promise<Array<models.Asset>>;
 
 export function GetDownloadsFolder():Promise<string>;

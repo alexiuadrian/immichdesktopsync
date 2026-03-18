@@ -180,6 +180,13 @@ func (a *App) GetAccessToken() string {
 	return a.cfg.AccessToken
 }
 
+func (a *App) GetAssetInfo(assetID string) (*models.Asset, error) {
+	if !a.auth.IsAuthenticated() {
+		return nil, fmt.Errorf("not authenticated")
+	}
+	return a.client.GetAssetInfo(assetID)
+}
+
 func (a *App) GetStreamPort() int {
 	if a.proxy == nil {
 		return 0

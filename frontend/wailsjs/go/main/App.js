@@ -26,6 +26,10 @@ export function GetAlbums() {
   return window['go']['main']['App']['GetAlbums']();
 }
 
+export function GetAssetInfo(arg1) {
+  return window['go']['main']['App']['GetAssetInfo'](arg1);
+}
+
 export function GetAssets() {
   return window['go']['main']['App']['GetAssets']();
 }

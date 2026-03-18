@@ -216,6 +216,19 @@ func (c *Client) UploadFile(filePath string) (string, error) {
 	return result.ID, nil
 }
 
+func (c *Client) GetAssetInfo(assetID string) (*models.Asset, error) {
+	resp, err := c.do("GET", fmt.Sprintf("/api/assets/%s", assetID), nil, "")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	var asset models.Asset
+	if err := json.NewDecoder(resp.Body).Decode(&asset); err != nil {
+		return nil, err
+	}
+	return &asset, nil
+}
+
 func (c *Client) GetThumbnail(assetID string) ([]byte, error) {
 	resp, err := c.doThumb("GET", fmt.Sprintf("/api/assets/%s/thumbnail?size=preview", assetID))
 	if err != nil {
