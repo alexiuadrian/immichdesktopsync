@@ -8,6 +8,8 @@ export function ClearCache():Promise<void>;
 
 export function DownloadAsset(arg1:string,arg2:string):Promise<void>;
 
+export function GetAccessToken():Promise<string>;
+
 export function GetAlbumAssets(arg1:string):Promise<Array<models.Asset>>;
 
 export function GetAlbums():Promise<Array<models.Album>>;
@@ -21,6 +23,8 @@ export function GetFolders():Promise<Array<string>>;
 export function GetServerURL():Promise<string>;
 
 export function GetServerVersion():Promise<string>;
+
+export function GetStreamPort():Promise<number>;
 
 export function GetThumbnail(arg1:string):Promise<Array<number>>;
 

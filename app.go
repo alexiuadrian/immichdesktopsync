@@ -23,13 +23,12 @@ type App struct {
 	auth     *backend.AuthManager
 	queue    *backend.UploadQueue
 	watcher  *backend.FolderWatcher
+	proxy    *backend.StreamProxy
 	thumbSem chan struct{}
 }
 
 func NewApp() *App {
-	return &App{
-		thumbSem: make(chan struct{}, 8),
-	}
+	return &App{thumbSem: make(chan struct{}, 8)}
 }
 
 func (a *App) startup(ctx context.Context) {
@@ -59,6 +58,12 @@ func (a *App) startup(ctx context.Context) {
 
 	a.auth = backend.NewAuthManager(cfg, a.client)
 	a.auth.RestoreSession()
+
+	if proxy, err := backend.NewStreamProxy(a.client); err != nil {
+		log.Printf("startup: stream proxy: %v", err)
+	} else {
+		a.proxy = proxy
+	}
 
 	if a.db != nil {
 		a.queue = backend.NewUploadQueue(a.db, a.client,
@@ -112,6 +117,9 @@ func (a *App) startup(ctx context.Context) {
 }
 
 func (a *App) shutdown(_ context.Context) {
+	if a.proxy != nil {
+		a.proxy.Close()
+	}
 	if a.watcher != nil {
 		_ = a.watcher.Close()
 	}
@@ -166,6 +174,17 @@ func (a *App) GetAlbumAssets(albumID string) ([]models.Asset, error) {
 		return nil, fmt.Errorf("not authenticated")
 	}
 	return a.client.GetAlbumAssets(albumID)
+}
+
+func (a *App) GetAccessToken() string {
+	return a.cfg.AccessToken
+}
+
+func (a *App) GetStreamPort() int {
+	if a.proxy == nil {
+		return 0
+	}
+	return a.proxy.Port()
 }
 
 func (a *App) GetThumbnail(assetID string) ([]byte, error) {

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"mime/multipart"
+	"net/http"
 	"os"
 	"path/filepath"
 	"time"
@@ -231,6 +232,11 @@ func (c *Client) GetOriginal(assetID string) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 	return io.ReadAll(resp.Body)
+}
+
+func (c *Client) GetOriginalResponse(assetID string) (*http.Response, error) {
+	c2 := &http.Client{}
+	return c.doWith(c2, "GET", fmt.Sprintf("/api/assets/%s/original", assetID), nil, "")
 }
 
 func writeField(mw *multipart.Writer, field, value string) error {

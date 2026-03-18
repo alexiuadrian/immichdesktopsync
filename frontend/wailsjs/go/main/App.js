@@ -14,6 +14,10 @@ export function DownloadAsset(arg1, arg2) {
   return window['go']['main']['App']['DownloadAsset'](arg1, arg2);
 }
 
+export function GetAccessToken() {
+  return window['go']['main']['App']['GetAccessToken']();
+}
+
 export function GetAlbumAssets(arg1) {
   return window['go']['main']['App']['GetAlbumAssets'](arg1);
 }
@@ -40,6 +44,10 @@ export function GetServerURL() {
 
 export function GetServerVersion() {
   return window['go']['main']['App']['GetServerVersion']();
+}
+
+export function GetStreamPort() {
+  return window['go']['main']['App']['GetStreamPort']();
 }
 
 export function GetThumbnail(arg1) {

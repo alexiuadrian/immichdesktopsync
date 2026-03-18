@@ -28,9 +28,8 @@ func NewClient(baseURL, token string) *Client {
 	}
 }
 
-func (c *Client) SetToken(token string) {
-	c.token = token
-}
+func (c *Client) SetToken(token string) { c.token = token }
+func (c *Client) Token() string         { return c.token }
 
 func (c *Client) do(method, path string, body io.Reader, contentType string) (*http.Response, error) {
 	return c.doWith(c.httpClient, method, path, body, contentType)
