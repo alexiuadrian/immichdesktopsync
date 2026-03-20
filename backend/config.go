@@ -46,3 +46,7 @@ func SaveConfig(cfg *models.Config) error {
 func DBPath() string {
 	return filepath.Join(configDir(), "sync.db")
 }
+
+func LogPath() string {
+	return filepath.Join(configDir(), "app.log")
+}

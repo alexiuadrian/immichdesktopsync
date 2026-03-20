@@ -82,10 +82,16 @@ func (a *App) startup(ctx context.Context) {
 			if !backend.IsMediaFile(p) {
 				continue
 			}
-			if uploaded, _ := a.db.IsUploaded(p); uploaded {
+			uploaded, err := a.db.IsUploaded(p)
+			if err != nil {
+				log.Printf("OnFileDrop: check uploaded %s: %v", p, err)
+			}
+			if uploaded {
 				continue
 			}
-			if err := a.db.EnqueueFile(p); err == nil {
+			if err := a.db.EnqueueFile(p); err != nil {
+				log.Printf("OnFileDrop: enqueue %s: %v", p, err)
+			} else {
 				count++
 			}
 		}
@@ -340,10 +346,16 @@ func (a *App) UploadFiles(paths []string) error {
 		if !backend.IsMediaFile(path) {
 			continue
 		}
-		if uploaded, _ := a.db.IsUploaded(path); uploaded {
+		uploaded, err := a.db.IsUploaded(path)
+		if err != nil {
+			log.Printf("UploadFiles: check uploaded %s: %v", path, err)
+		}
+		if uploaded {
 			continue
 		}
-		if err := a.db.EnqueueFile(path); err == nil {
+		if err := a.db.EnqueueFile(path); err != nil {
+			log.Printf("UploadFiles: enqueue %s: %v", path, err)
+		} else {
 			count++
 		}
 	}

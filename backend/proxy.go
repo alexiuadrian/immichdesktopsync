@@ -65,6 +65,7 @@ func (p *StreamProxy) handleVideo(w http.ResponseWriter, r *http.Request) {
 	immichURL := fmt.Sprintf("%s/api/assets/%s/original", p.client.BaseURL, assetID)
 	req, err := http.NewRequestWithContext(r.Context(), "GET", immichURL, nil)
 	if err != nil {
+		log.Printf("stream proxy: build request for %s: %v", assetID, err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -76,6 +77,7 @@ func (p *StreamProxy) handleVideo(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := (&http.Client{}).Do(req)
 	if err != nil {
+		log.Printf("stream proxy: fetch %s: %v", assetID, err)
 		http.Error(w, err.Error(), http.StatusBadGateway)
 		return
 	}
